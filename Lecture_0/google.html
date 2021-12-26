@@ -2,46 +2,19 @@
 <html lang="en">
     <head>
         <title>Search</title>
-        <style>
-            .right{
-                text-align: right;
-            }
-
-            #search-form {
-                position:absolute;
-                top:50%;
-                right: auto;
-                left: 30%;
-            }
-
-            #search-form .input_my { 
-              margin: 0 10px 5px 0; 
-              border-radius: 5cm;
-              width: 600px;
-
-            }
-
-            #search-form .search_button {
-              max-height: 20px;
-              border-radius: 10px;
-              position: absolute;
-              left: 50%;
-            }
-
-        </style>
+        <link rel="stylesheet" href="styles.css">
     </head>
     <body>
-        <div class="right">
-            <a href="image_search.html">Google Image Search</a>
-        </div>
-        <form action="https://www.google.com/search">
-            <div id="search-form">
-                <div>
-                    <input class="input_my" type="text" name="q" autocomplete="off">
+        <a href="image_search.html" style="float: right;">Google Image Search</a><br/>
+        <a href="image_search.html" style="float: right;">Google Advanced Search</a>
+        <form action="https://www.google.com/search" class="search-form">
+            <div class="center">
+                <div class="search_my">
+                    <input  type="search" name="q" autocomplete="off">
                 </div>
                 <div>
-                    <input class="search_button" type="submit" value="Google Search">
-                </div>
+                    <input  type="submit" value="Google Search">
+                </div> 
             </div>   
         </form>
     </body>
