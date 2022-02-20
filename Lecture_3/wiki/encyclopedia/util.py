@@ -39,8 +39,10 @@ def get_entry(title):
     
 def get_possible_entries(title):
     _, filenames = default_storage.listdir("entries")
-    res = []
-    for file in filenames:
-        if title.upper() in file.upper():
-            res.append(re.sub(r"\.md$", "", file))
+    # res = []
+    # for file in filenames:
+    #     if title.upper() in file.upper():
+    #         res.append(re.sub(r"\.md$", "", file))
+            
+    res = [re.sub(r"\.md$", "", file) for file in filenames if title.upper() in file.upper()]
     return res
