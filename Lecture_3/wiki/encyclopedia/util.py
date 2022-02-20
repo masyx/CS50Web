@@ -35,3 +35,12 @@ def get_entry(title):
         return f.read().decode("utf-8")
     except FileNotFoundError:
         return None
+    
+    
+def get_possible_entries(title):
+    _, filenames = default_storage.listdir("entries")
+    res = []
+    for file in filenames:
+        if title.upper() in file.upper():
+            res.append(re.sub(r"\.md$", "", file))
+    return res
