@@ -1,11 +1,17 @@
-from asyncio.windows_events import NULL
-from webbrowser import get
+from cProfile import label
 from django.http import HttpRequest
 from django.shortcuts import render
+from django import forms
 
 from . import util
 
 
+class NewTextField(forms.Form):
+    new_entry_form = forms.Textarea()
+
+
+
+# Create your views here
 def index(request):
     entries = util.list_entries()
     return render(request, "encyclopedia/index.html", {
@@ -31,4 +37,12 @@ def get_page(request: HttpRequest, page_name=''):
         "page_name": page_name.upper(),
         "entry": util.get_entry(page_name)
     })
+    
+    
+def add_entry(request: HttpRequest):
+    # if request.method == "POST":
+    #     form = NewTextField(request.POST)
+    return render(request, "encyclopedia/new_entry.html", {
+        "new_entry_form": NewTextField()
+    })    
 

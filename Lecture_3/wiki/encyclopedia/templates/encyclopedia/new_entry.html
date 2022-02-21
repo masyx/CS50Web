@@ -1,0 +1,18 @@
+{% extends "encyclopedia/layout.html" %}
+
+{% block title %}
+    {{ "New Entry" }}
+{% endblock %}
+
+{% block body %}
+    <h1>Add new Entry</h1>
+
+    <form action="{% url 'add_entry' %}" method="post">
+        <label for="entryTitle">New Entry Title:</label>
+        <input type="text" id="entryTitle" name="entryTitle"><br><br>
+        <label for="entryContent">Entry content:</label><br><br>
+        <textarea id="entryContent" name="entryContent" rows="10" cols="20" placeholder="Start typing here"></textarea> <br><br>
+        <input type="submit" value="Submit">
+    </form>
+
+{% endblock %}
