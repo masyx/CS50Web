@@ -1,4 +1,5 @@
 from cProfile import label
+from xml.dom.pulldom import default_bufsize
 from django.http import HttpRequest
 from django.shortcuts import render
 from django import forms
@@ -40,9 +41,16 @@ def get_page(request: HttpRequest, page_name=''):
     
     
 def add_entry(request: HttpRequest):
-    # if request.method == "POST":
-    #     form = NewTextField(request.POST)
-    return render(request, "encyclopedia/new_entry.html", {
-        "new_entry_form": NewTextField()
-    })    
-
+    if request.method == "POST":
+        entry_title = request.POST.get('entryTitle')
+        entry_content = request.POST.get('entryContent')
+        
+        existing_entries = util.list_entries()
+        if entry_title.capitalize() not in existing_entries:
+            util.save_entry(entry_title, entry_content)
+        else:
+            return render(request, "encyclopedia/new_entry.html", {
+                "error": f"Entry with the title '{entry_title}' already exists."
+            })
+    
+    return render(request, "encyclopedia/new_entry.html")    
