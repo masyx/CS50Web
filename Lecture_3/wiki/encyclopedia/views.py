@@ -45,8 +45,8 @@ def add_entry(request: HttpRequest):
         entry_title = request.POST.get('entryTitle')
         entry_content = request.POST.get('entryContent')
         
-        existing_entries = util.list_entries()
-        if entry_title.capitalize() not in existing_entries:
+        existing_entries = [entry.upper() for entry in util.list_entries()] 
+        if entry_title.upper() not in existing_entries:
             util.save_entry(entry_title, entry_content)
         else:
             return render(request, "encyclopedia/new_entry.html", {
