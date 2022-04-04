@@ -48,6 +48,7 @@ def add_entry(request: HttpRequest):
         existing_entries = [entry.upper() for entry in util.list_entries()] 
         if entry_title.upper() not in existing_entries:
             util.save_entry(entry_title, entry_content)
+            return index(request)
         else:
             return render(request, "encyclopedia/new_entry.html", {
                 "error": f"Entry with the title '{entry_title}' already exists."
