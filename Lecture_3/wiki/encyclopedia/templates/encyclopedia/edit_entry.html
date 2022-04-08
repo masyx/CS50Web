@@ -1,0 +1,19 @@
+{% extends "encyclopedia/layout.html" %}
+
+{% block title %}
+    {{ "Edit Entry" }}
+{% endblock %}
+
+{% block body %}
+    <h1>Edit Entry</h1>
+
+    <form action="{% url 'edit_entry' ENTRY_TITLE=entry_name %}" method="post">
+        {% csrf_token %}
+        <label for="entryTitle">Edit Entry Title:</label>
+        <input type="text" id="entryTitle" name="entryTitle" value="{{ entry_name }}"><br><br>
+        <label for="entryContent">Edit Entry content:</label>
+        <textarea id="entryContent" name="entryContent" rows="10" cols="55"> {{ entry_content }} </textarea><br><br>
+        <input type="submit" value="Submit">
+    </form>
+
+{% endblock %}

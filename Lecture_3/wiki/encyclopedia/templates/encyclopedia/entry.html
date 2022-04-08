@@ -7,7 +7,12 @@
 {% block body %}
 
     {% if entry %}
+    
         <h2> {{ entry }} </h2>
+        <form action="{% url 'edit_entry' ENTRY_TITLE=page_name %}" method="get">
+            <button type="submit">Edit</button>
+        </form>
+        
     {% else %}
         <h2>Can not find requested page: '{{ page_name }}'.</h2>
     {% endif %}

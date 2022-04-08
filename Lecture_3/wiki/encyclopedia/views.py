@@ -1,7 +1,7 @@
 from cProfile import label
 from xml.dom.pulldom import default_bufsize
 from django.http import HttpRequest
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django import forms
 
 from . import util
@@ -48,10 +48,23 @@ def add_entry(request: HttpRequest):
         existing_entries = [entry.upper() for entry in util.list_entries()] 
         if entry_title.upper() not in existing_entries:
             util.save_entry(entry_title, entry_content)
-            return index(request)
+            return redirect("index")
         else:
             return render(request, "encyclopedia/new_entry.html", {
                 "error": f"Entry with the title '{entry_title}' already exists."
             })
     
     return render(request, "encyclopedia/new_entry.html")    
+
+
+def edit_entry(request:HttpRequest, ENTRY_TITLE=''):
+    if request.method == "POST":
+        entry_name = request.POST.get('entryTitle');
+        entry_content = request.POST.get('entryContent')
+        util.save_entry(entry_name, entry_content)
+        return redirect("index")
+    
+    return render(request, "encyclopedia/edit_entry.html",{
+        "entry_name": ENTRY_TITLE.capitalize(),
+        "entry_content": util.get_entry(ENTRY_TITLE)
+    })
