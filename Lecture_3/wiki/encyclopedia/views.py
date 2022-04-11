@@ -3,6 +3,7 @@ from xml.dom.pulldom import default_bufsize
 from django.http import HttpRequest
 from django.shortcuts import redirect, render
 from django import forms
+import random
 
 from . import util
 
@@ -68,3 +69,12 @@ def edit_entry(request:HttpRequest, ENTRY_TITLE=''):
         "entry_name": ENTRY_TITLE.capitalize(),
         "entry_content": util.get_entry(ENTRY_TITLE)
     })
+    
+    
+def random_page(request:HttpRequest):
+    entries = util.list_entries()
+    random_number = random.randint(0, len(entries) - 1)
+    #entry_name = util.get_entry(entries[random_number])
+    return redirect("wiki_entry", page_name=entries[random_number])
+    
+    
