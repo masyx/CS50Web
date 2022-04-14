@@ -8,7 +8,7 @@
 
     {% if entry %}
     
-        <h2> {{ entry }} </h2>
+        {{ entry | safe }}
         <form action="{% url 'edit_entry' ENTRY_TITLE=page_name %}" method="get">
             <button type="submit">Edit</button>
         </form>

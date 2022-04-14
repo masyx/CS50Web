@@ -4,6 +4,7 @@ from django.http import HttpRequest
 from django.shortcuts import redirect, render
 from django import forms
 import random
+import markdown2
 
 from . import util
 
@@ -23,8 +24,9 @@ def index(request):
 def get_page(request: HttpRequest, page_name=''):
     page_to_search = request.GET.get('q')
     if page_to_search:
-        entry = util.get_entry(page_to_search)
-        if entry:
+        originalEntry = util.get_entry(page_to_search)
+        if originalEntry:
+            entry = markdown2.markdown(originalEntry)
             return render(request, "encyclopedia/entry.html",{
                "page_name": page_to_search.upper(),
                 "entry": entry 
@@ -37,7 +39,7 @@ def get_page(request: HttpRequest, page_name=''):
         
     return render(request, "encyclopedia/entry.html", {
         "page_name": page_name.upper(),
-        "entry": util.get_entry(page_name)
+        "entry": markdown2.markdown(util.get_entry(page_name))
     })
     
     
