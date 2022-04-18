@@ -1,5 +1,4 @@
 from cProfile import label
-from xml.dom.pulldom import default_bufsize
 from django.http import HttpRequest
 from django.shortcuts import redirect, render
 from django import forms
@@ -9,8 +8,9 @@ import markdown2
 from . import util
 
 
-class NewTextField(forms.Form):
-    new_entry_form = forms.Textarea()
+class EntryForm(forms.Form):
+    new_entry_title = forms.CharField(label="New Entry Title:")
+    new_entry_content = forms.CharField(label="Entry content:", widget=forms.Textarea(attrs={'placeholder': 'Start typing here'}))
 
 
 
@@ -45,19 +45,28 @@ def get_page(request: HttpRequest, page_name=''):
     
 def add_entry(request: HttpRequest):
     if request.method == "POST":
-        entry_title = request.POST.get('entryTitle')
-        entry_content = request.POST.get('entryContent')
-        
-        existing_entries = [entry.upper() for entry in util.list_entries()] 
-        if entry_title.upper() not in existing_entries:
-            util.save_entry(entry_title, entry_content)
-            return redirect("index")
+        # entry_title = request.POST.get('new_entry_title')
+        # entry_content = request.POST.get('new_entry_content')
+        form = EntryForm(request.POST)
+        if form.is_valid(): 
+            entry_title = form.cleaned_data['new_entry_title']
+            entry_content = form.cleaned_data['new_entry_content']
+            existing_entries = [entry.upper() for entry in util.list_entries()] 
+            if entry_title.upper() not in existing_entries:
+                util.save_entry(entry_title, entry_content)
+                return redirect("index")
+            else:
+                return render(request, "encyclopedia/new_entry.html", {
+                    "error": f"Entry with the title '{entry_title}' already exists."
+                })
         else:
-            return render(request, "encyclopedia/new_entry.html", {
-                "error": f"Entry with the title '{entry_title}' already exists."
-            })
+            return render(request,"encyclopedia/new_entry.html", context={
+                "new_form": form
+            })    
     
-    return render(request, "encyclopedia/new_entry.html")    
+    return render(request, "encyclopedia/new_entry.html", context={
+        "new_form": EntryForm()
+    })    
 
 
 def edit_entry(request:HttpRequest, ENTRY_TITLE=''):

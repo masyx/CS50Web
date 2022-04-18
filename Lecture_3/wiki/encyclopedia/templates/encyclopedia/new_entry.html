@@ -12,10 +12,11 @@
     {% else %}
         <form action="{% url 'add_entry' %}" method="post">
             {% csrf_token %}
-            <label for="entryTitle">New Entry Title:</label>
+            {{ new_form }}
+            <!-- <label for="entryTitle">New Entry Title:</label>
             <input type="text" id="entryTitle" name="entryTitle"><br><br>
             <label for="entryContent">Entry content:</label>
-            <textarea id="entryContent" name="entryContent" rows="10" cols="55" placeholder="Start typing here"></textarea> <br><br>
+            <textarea id="entryContent" name="entryContent" rows="10" cols="55" placeholder="Start typing here"></textarea> <br><br> -->
             <input type="submit" value="Submit">
         </form>
     {% endif %}
